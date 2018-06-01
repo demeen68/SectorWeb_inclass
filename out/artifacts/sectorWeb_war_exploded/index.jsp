@@ -7,10 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<body>
+
+</body>
+</html>
+<html>
+<head>
+    <title>首页</title>
+</head>
+<body>
+<<a href="login.jsp">aa</a>
+</body>
 </html>
