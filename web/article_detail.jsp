@@ -186,7 +186,8 @@
         </div>
     </div>
     <form action="save_text.jsp" method="post" id="myform">
-        <input type="hidden" id="sel" name="topictext" title="topictext"/>
+        <input type="hidden" id="sel" name="topictext"/>
+        <input type="hidden" name="own_block_name" value="<%=block_name%>">
     </form>
 </section>
 <script type="text/javascript" src="js/wangEditor.js"></script>
