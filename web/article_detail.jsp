@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -72,10 +71,7 @@
 </nav>
 
 <section class="container pt-20">
-
     <div class="row w_main_row">
-
-
         <div class="col-lg-9 col-md-9 w_main_left">
             <div class="panel panel-default  mb-20">
                 <div class="panel-body pt-10 pb-10">
@@ -83,7 +79,7 @@
                     </h2>
                     <p class="box_c"><span
                             class="d_time">发布时间：<%=request.getParameter("create_time")%></span>
-                        <span>编辑：<%=request.getParameter("own_name")%></span>
+                        <span>版主：<%=request.getParameter("own_name")%></span>
                     </p>
                     <ul class="infos">
                         <p><%=request.getParameter("default_text")%>
@@ -144,24 +140,14 @@
                             </ul>
 
                         </div>
-                        <div class="line"></div>
-                        <!--用于评论-->
-                        <div class="mt-20" id="ct">
-                            <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                            <textarea id="textarea1" name="comment" style="height:200px;"
-                                      placeholder="看完不留一发？"> </textarea>
-                            <div class="text-r mt-10">
-                                <button onclick="getPlainTxt()" class="btn btn-primary radius"> 发表评论</button>
-                            </div>
+                        <div id="div1">
+                            <p>wang</p>
                         </div>
-                        <!--用于回复-->
-                        <div class="comment hidden mt-20">
-                            <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                            <textarea class="textarea" style="height:100px;"> </textarea>
-                            <button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10">回复</button>
-                            <a class="cancelReply f-r mt-10">取消回复</a>
-                        </div>
-
+                        <% if (session.getAttribute("username") != null) {%>
+                        <button id="btn2">发帖</button>
+                        <%} else {%>
+                        <p>请先登录 , 登陆后即可跟帖</p>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -199,43 +185,39 @@
             </div>
         </div>
     </div>
-
+    <form action="save_text.jsp" method="post" id="myform">
+        <input type="hidden" id="sel" name="topictext" title="topictext"/>
+    </form>
 </section>
+<script type="text/javascript" src="js/wangEditor.js"></script>
 <script type="text/javascript" src="plugin/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="plugin/layer/3.0/layer.js"></script>
 <script type="text/javascript" src="plugin/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="plugin/pifu/pifu.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+
+</script>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#div1');
+    editor.create();
+
+    document.getElementById('btn2').addEventListener('click', function () {
+        // 读取 text
+        document.getElementById("sel").value = editor.txt.text();
+        // alert(editor.txt.text());
+        document.getElementById("myform").submit();
+    }, false)
+</script>
 <script> $(function () {
     $(window).on("scroll", backToTopFun);
     backToTopFun();
 }); </script>
-<script type="text/javascript" src="plugin/wangEditor/js/wangEditor.min.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $("img.lazyload").lazyload({failurelimit: 3});
-
-        wangEditor.config.printLog = false;
-        var editor1 = new wangEditor('textarea1');
-        editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'img', 'emotion', '|', 'undo', 'fullscreen'];
-        editor1.create();
-
-        //show reply
-        $(".hf").click(function () {
-            pId = $(this).attr("name");
-            $(this).parents(".commentList").find(".cancelReply").trigger("click");
-            $(this).parent(".comment-body").append($(".comment").clone(true));
-            $(this).parent(".comment-body").find(".comment").removeClass("hidden");
-            $(this).hide();
-        });
-        //cancel reply
-        $(".cancelReply").on('click', function () {
-            $(this).parents(".comment-body").find(".hf").show();
-            $(this).parents(".comment-body").find(".comment").remove();
-        });
-    });
-
-</script>
 </body>
 </html>
 

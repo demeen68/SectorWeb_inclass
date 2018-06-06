@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -64,49 +63,60 @@
             class="c-gray en">&gt;</span> <span class="c-gray">关于</span></div>
 </nav>
 
-<section class="container">
-    <div class="container-fluid">
-        <div class="about">
-            <%
-                Connection con;
-                Statement sql;
-                try {
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                } catch (Exception e) {
-                    out.print(e);
-                }
-                String uri = "jdbc:mysql://localhost:3306/sectorweb";
-                try {
-                    con = DriverManager.getConnection(uri, "demeen", "maoniou");
-                    sql = con.createStatement();
-                    String sqlline = String.format("SELECT own_name,create_time,content FROM topic where own_block_name='%s';", block_name);
-                    ResultSet topic_set = sql.executeQuery(sqlline);
-            %>
-            <% while (topic_set.next()) {%>
+<section class="container pt-20">
+    <%
+        Connection con;
+        Statement sql;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception e) {
+            out.print(e);
+        }
+        String uri = "jdbc:mysql://localhost:3306/sectorweb";
+        try {
+            con = DriverManager.getConnection(uri, "demeen", "maoniou");
+            sql = con.createStatement();
+            int setcount = 0;
+            String sqlline = String.format("SELECT own_block_name,content FROM topic where own_name='%s';", username);
+            ResultSet topic_set = sql.executeQuery(sqlline);
+    %>
+    <!--left-->
+    <div class="col-sm-9 col-md-9">
+        <div>
+            <h2>我的发帖</h2>
+            <ul>
+                <% while (topic_set.next()) {%>
+                <h3 style="color: #e29a63;"><%=topic_set.getString(1)%>
+                </h3>
+                <p><%=topic_set.getString(2)%>
+                </p>
+                <% setcount++;
+                } %>
+            </ul>
 
-            <%
-                    }
-                    con.close();
-                } catch (Exception e) {
-                    out.print(e);
-                }
-            %>
+        </div>
+    </div>
+
+    <!--right-->
+    <div class="col-sm-3 col-md-3">
+        <div>
             <h2>About me</h2>
             <ul>
-                <p>name：<%=username%>
+                <p>用户名 UserName：<%=username%>
                 </p>
-                <p>服务器：腾讯云服务器 ，于2017年02月23日完成备案</p>
-                <p>备案号：皖ICP备17002922号</p>
-                <p>本站定位为IT技术博客站，博客内容主要涉及编程语言、前端开发、服务端开发及一些热门技术等方面，同时分享实用的学习和开发资料。</p>
-            </ul>
-            <h2>My topic</h2>
-            <ul>
-                <p></p>
+                <p>等级 Level：<%=setcount%>
+                </p>
             </ul>
         </div>
-
     </div>
+    <%
+            con.close();
+        } catch (Exception e) {
+            out.print(e);
+        }
+    %>
 </section>
+
 <script type="text/javascript" src="plugin/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="plugin/layer/3.0/layer.js"></script>
 <script type="text/javascript" src="plugin/h-ui/js/H-ui.min.js"></script>
