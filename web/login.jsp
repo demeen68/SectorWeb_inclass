@@ -28,11 +28,11 @@
         <div class="head">
             <img src="images/user.png" alt=""/>
         </div>
-        <form>
-            <input type="text" class="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
+        <form action="login_logic.jsp" method="post">
+            <input type="text" class="text" placeholder="username" name="username"/>
+            <input type="password" placeholder="password" name="password"/>
             <div class="submit">
-                <input type="submit" onclick="myFunction()" value="LOGIN">
+                <input type="submit" value="LOGIN">
             </div>
             <p><a href="signup.jsp">Go to sign up !</a></p> <br>
         </form>
