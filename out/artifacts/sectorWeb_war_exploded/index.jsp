@@ -61,7 +61,7 @@
         <div class="art_content">
             <ul class="index_arc">
                 <li class="index_arc_item no_pic">
-                    <h4 class="title"><a href="/article/5.html">个人博客应该选择什么样的域名和域名后缀</a></h4>
+                    <h4 class="title"><a href="article_detail.jsp">个人博客应该选择什么样的域名和域名后缀</a></h4>
                     <div class="date_hits">
                         <span>老王</span>
                         <span>2个月前</span>
