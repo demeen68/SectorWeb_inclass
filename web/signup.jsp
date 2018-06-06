@@ -29,11 +29,12 @@
             <img src="images/user.png" alt=""/>
         </div>
         <form action="signup_logic.jsp" method="post">
-            <input type="text" class="text" name="username" placeholder="username"/>
-            <input type="password" placeholder="password" name="password"/>
+            <input type="text" class="text" name="username" placeholder="enter your username"/>
+            <input type="password" placeholder="enter password" name="password1"/>
+            <input type="password" placeholder="password again , please" name="password2">
             <p>Please remember your password!</p>
             <div class="submit">
-                <input type="submit" value="LOGIN">
+                <input type="submit" value="SIGN UP !">
             </div>
             <p><a href="login.jsp">Go to login in !</a></p> <br>
         </form>

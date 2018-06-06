@@ -16,19 +16,27 @@
         out.print(e);
     }
     try {
-        String uri = "jdbc:mysql://localhost:3306/sectorweb";
-        con = DriverManager.getConnection(uri, "demeen", "maoniou");
-        sql = con.createStatement();
-        String username = new String((request.getParameter("username")).getBytes("ISO-8859-1"), "UTF-8");
-        String password = new String((request.getParameter("password")).getBytes("ISO-8859-1"), "UTF-8");
-        String sqlline = String.format("INSERT INTO user (username,password) VALUES ('%s','%s');", username, password);
-        sql.execute(sqlline);
-        con.close();
-    } catch (SQLException e1) {
-        out.print(e1);
-    }
-%>
+        String password1 = new String((request.getParameter("password1")).getBytes("ISO-8859-1"), "UTF-8");
+        String password2 = new String((request.getParameter("password2")).getBytes("ISO-8859-1"), "UTF-8");
+        if (password1.equals(password2) && !password1.equals("")) {
+            String uri = "jdbc:mysql://localhost:3306/sectorweb";
+            con = DriverManager.getConnection(uri, "demeen", "maoniou");
+            sql = con.createStatement();
+            String username = new String((request.getParameter("username")).getBytes("ISO-8859-1"), "UTF-8");
+            String sqlline = String.format("INSERT INTO user (username,password) VALUES ('%s','%s');", username, password1);
+            sql.execute(sqlline);
+            con.close();%>
 <script type="text/javascript">
     window.location = "login.jsp";
-    alert("signup is success");
+    alert("success");
 </script>
+<% } else {%>
+<script type="text/javascript">
+    window.location = "signup.jsp";
+    alert("sign up is fail , please enter again");
+</script>
+
+<% }
+} catch (SQLException e1) {
+    out.print(e1);
+}%>
