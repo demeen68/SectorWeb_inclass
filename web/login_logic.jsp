@@ -24,13 +24,12 @@
             sql = con.createStatement();
             String sqlline = String.format("SELECT username,password FROM user where username='%s' and password='%s';", username, password);
             ResultSet set = sql.executeQuery(sqlline);
-            if (set.next()){
-                
-            }
-            con.close();
-%>
+            if (set.next()) {%>
 <%--success--%>
-
+<script type="text/javascript">
+    window.location = "index.jsp";
+    <% session.setAttribute("username",username);%>
+</script>
 
 <% } else {%>
 <%--fail--%>
@@ -40,6 +39,8 @@
 </script>
 
 <% }
+    con.close();
+}
 } catch (SQLException e1) {
     out.print(e1);
 }%>

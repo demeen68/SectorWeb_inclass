@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE HTML>
+<%@ page import="java.sql.*" %>
 <html>
 <head>
     <title>博客网站</title>
@@ -31,22 +31,25 @@
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
         <div class="container cl">
-            <a class="logo navbar-logo-m visible-xs" href="/">Lao王博客</a>
             <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);"
                onclick="showSide();">&#xe667;</a>
             <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
                 <ul class="cl">
-                    <li class="active"><a href="index.html" data-hover="首页">首页</a></li>
+                    <li class="active"><a href="index.jsp" data-hover="首页">首页</a></li>
                 </ul>
             </nav>
             <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
                 <ul class="cl">
                     <li class="userInfo dropDown dropDown_hover">
-                        <!--<a href="javascript:;" ><img class="avatar radius" src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="丶似浅 "></a>
-                        <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="/app/loginOut">退出</a></li>
-                        </ul>-->
+                        <% String username = (String) session.getAttribute("username");
+                            if (username != null) {%>
+                        <a href="me.jsp"><%=username%>
+                        </a>
+                        <%} else {%>
                         <a href="login.jsp"> 登陆 Login in</a>
+                        <%}%>
+
+
                     </li>
                 </ul>
             </nav>
@@ -60,22 +63,43 @@
         <!--滚动图-->
         <div class="art_content">
             <ul class="index_arc">
+
+                <%
+                    Connection con;
+                    Statement sql;
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    } catch (Exception e) {
+                        out.print(e);
+                    }
+                    String uri = "jdbc:mysql://localhost:3306/sectorweb";
+                    try {
+                        con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                        sql = con.createStatement();
+                        String sqlline = String.format("SELECT name,own_name,create_time,default_text FROM block;");
+                        ResultSet block_set = sql.executeQuery(sqlline); %>
+                <% while (block_set.next()) {%>
                 <li class="index_arc_item no_pic">
-                    <h4 class="title"><a href="article_detail.jsp">个人博客应该选择什么样的域名和域名后缀</a></h4>
+                    <h2 class="title"><a href="article_detail.jsp?blockname=<%=block_set.getString(1)%>
+                        &own_name=<%=block_set.getString(2)%>&create_time=<%=block_set.getString(3)%>
+                        &default_text=<%=block_set.getString(4)%>">
+                        <%=block_set.getString(1)%>
+                    </a></h2> <br>
                     <div class="date_hits">
-                        <span>老王</span>
-                        <span>2个月前</span>
-                        <span><a href="/article-lists/10.html">建站</a></span>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
-                        <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span id="sourceId::105"
-                                                                                                   class="cy_cmt_count">20</span>
+                        <span>版主 : <%=block_set.getString(2)%></span>
+                        <span>创建时间 : <%=block_set.getString(3)%></span>
+                        <p><%=block_set.getString(4)%>
                         </p>
                     </div>
-                    <div class="desc">
-                        不论搭建什么样的网站，选择一个好的域名都是很有必要的，选择一个好的域名对网站的意义也是不言而喻的。每一个网站都有之对应的域名，就像人的名字一样。每个人都想自己有个好听的名字，网站也是一样。一个网站可以有多个域名，但是一个域名只能对应一个网站。&nbsp;一、域名要好记，方便输入&nbsp;
-                        &nbsp; &nbsp; &nbsp;域名本身的意义就是为了人们方便记忆才使用的，不然都用IP地址就好了。所以，网站域名一定要选择好记忆的。因为域名是
-                    </div>
                 </li>
+
+                <%
+                        }
+                        con.close();
+                    } catch (Exception e) {
+                        out.print(e);
+                    }
+                %>
 
 
             </ul>
