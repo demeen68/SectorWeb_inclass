@@ -36,6 +36,11 @@
             <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
                 <ul class="cl">
                     <li class="active"><a href="index.jsp" data-hover="首页">首页</a></li>
+                    <% if (session.getAttribute("username") != null) {%>
+                    <li class="active"><a href="writeBlock.jsp" data-hover="发起话题">发起话题</a></li>
+                    <%} else {%>
+                    <li class="active">登陆后发起话题</li>
+                    <%}%>
                 </ul>
             </nav>
             <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">

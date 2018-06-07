@@ -141,7 +141,7 @@
 
                         </div>
                         <div id="div1">
-                            <p>wang</p>
+                            <p></p>
                         </div>
                         <% if (session.getAttribute("username") != null) {%>
                         <button id="btn2">发帖</button>
