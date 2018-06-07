@@ -113,7 +113,7 @@
                                         clickset.next();
                                         click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
                                         sql.execute(click_number);
-                                        String sqlline = String.format("SELECT own_name,create_time,content FROM topic where own_block_name='%s';", block_name);
+                                        String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s';", block_name);
                                         ResultSet topic_set = sql.executeQuery(sqlline); %>
                                 <% while (topic_set.next()) {%>
                                 <li class="item cl">
@@ -122,17 +122,30 @@
                                              src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
                                     <div class="comment-main">
                                         <header class="comment-header">
-                                            <div class="comment-meta"><a class="comment-author"
-                                                                         href="#"><%=topic_set.getString(1)%>
-                                            </a>
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#"><%=topic_set.getString(1)%>
+                                                </a>
                                                 <time class="f-r"><%=topic_set.getString(2)%>
                                                 </time>
                                             </div>
+
                                         </header>
                                         <div class="comment-body">
                                             <p><%=topic_set.getString(3)%>
                                             </p>
                                         </div>
+                                        <%if (session.getAttribute("username").toString() != null) {%>
+                                        <% if (request.getParameter("own_name").equals(session.getAttribute("username").toString())) {
+                                            //is banzhu%>
+                                        <form style="padding: 20px;" action="makeTop.jsp" method="post">
+                                            <input type="hidden" value="<%=topic_set.getString(4)%>" name="topic_id">
+                                            <input type="submit" value="Top"
+                                                   style="width: 106px; height: 21px;background-color:#ffff73 ">
+                                        </form>
+                                        <%
+                                                }
+                                            }
+                                        %>
                                     </div>
                                 </li>
                                 <%
@@ -165,12 +178,69 @@
                 </div>
                 <div class="tab-category-item">
                     <ul class="index_recd">
-
-
+                        <%
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                            } catch (Exception e) {
+                                out.print(e);
+                            }
+                            uri = "jdbc:mysql://localhost:3306/sectorweb";
+                            try {
+                                con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                                sql = con.createStatement();
+                                String sqlline = "SELECT name,topic_number FROM block ORDER BY topic_number DESC limit 5";
+                                ResultSet block_set = sql.executeQuery(sqlline); %>
+                        <% while (block_set.next()) {%>
                         <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
+                            <a href="#"><%=block_set.getString(1)%>
+                            </a>
+                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i><%=block_set.getString(2)%>
+                            </p>
                         </li>
+                        <%
+                                }
+                                con.close();
+                            } catch (Exception e) {
+                                out.print(e);
+                            }
+                        %>
+                    </ul>
+                </div>
+            </div>
+
+            <!--点击排行-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>点击排行</strong></a>
+                </div>
+                <div class="tab-category-item">
+                    <ul class="index_recd clickTop">
+                        <%
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                            } catch (Exception e) {
+                                out.print(e);
+                            }
+                            uri = "jdbc:mysql://localhost:3306/sectorweb";
+                            try {
+                                con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                                sql = con.createStatement();
+                                String sqlline = "SELECT name,click_number FROM block ORDER BY click_number DESC limit 5";
+                                ResultSet block_set = sql.executeQuery(sqlline); %>
+                        <% while (block_set.next()) {%>
+                        <li>
+                            <a href="#"><%=block_set.getString(1)%>
+                            </a>
+                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> <%=block_set.getInt(2)%>°
+                            </p>
+                        </li>
+                        <%
+                                }
+                                con.close();
+                            } catch (Exception e) {
+                                out.print(e);
+                            }
+                        %>
                     </ul>
                 </div>
             </div>
