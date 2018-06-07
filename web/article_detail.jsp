@@ -113,8 +113,10 @@
                                         String click_number = String.format("select id from block where name='%s';", block_name);
                                         ResultSet clickset = sql.executeQuery(click_number);
                                         clickset.next();
-                                        click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
-                                        sql.execute(click_number);
+                                        if (clickset.getString(1) != null) {
+                                            click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
+                                            sql.execute(click_number);
+                                        }
                                         String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s' and top=1;", block_name);
                                         ResultSet topic_set = sql.executeQuery(sqlline);
                                 %>
@@ -155,7 +157,7 @@
                                         }
                                         con.close();
                                     } catch (Exception e) {
-                                        out.print(e);
+//                                        out.print(e);
                                     }
                                 %>
                                 <%--Top is 0--%>
@@ -166,8 +168,6 @@
                                         String click_number = String.format("select id from block where name='%s';", block_name);
                                         ResultSet clickset = sql.executeQuery(click_number);
                                         clickset.next();
-                                        click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
-                                        sql.execute(click_number);
                                         String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s' and top=0;", block_name);
                                         ResultSet topic_set = sql.executeQuery(sqlline);
                                 %>
@@ -208,7 +208,7 @@
                                         }
                                         con.close();
                                     } catch (Exception e) {
-                                        out.print(e);
+//                                        out.print(e);
                                     }
                                 %>
                             </ul>
@@ -244,11 +244,11 @@
                             try {
                                 con = DriverManager.getConnection(uri, "demeen", "maoniou");
                                 sql = con.createStatement();
-                                String sqlline = "SELECT name,topic_number FROM block ORDER BY topic_number DESC limit 5";
+                                String sqlline = "SELECT name,topic_number,id FROM block ORDER BY topic_number DESC limit 5";
                                 ResultSet block_set = sql.executeQuery(sqlline); %>
                         <% while (block_set.next()) {%>
                         <li>
-                            <a href="#"><%=block_set.getString(1)%>
+                            <a href="article_byid.jsp?id=<%=block_set.getString(3)%>"><%=block_set.getString(1)%>
                             </a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i><%=block_set.getString(2)%>
                             </p>
@@ -257,7 +257,7 @@
                                 }
                                 con.close();
                             } catch (Exception e) {
-                                out.print(e);
+//                                out.print(e);
                             }
                         %>
                     </ul>
@@ -281,11 +281,11 @@
                             try {
                                 con = DriverManager.getConnection(uri, "demeen", "maoniou");
                                 sql = con.createStatement();
-                                String sqlline = "SELECT name,click_number FROM block ORDER BY click_number DESC limit 5";
+                                String sqlline = "SELECT name,click_number,id FROM block ORDER BY click_number DESC limit 5";
                                 ResultSet block_set = sql.executeQuery(sqlline); %>
                         <% while (block_set.next()) {%>
                         <li>
-                            <a href="#"><%=block_set.getString(1)%>
+                            <a href="article_byid.jsp?id=<%=block_set.getString(3)%>"><%=block_set.getString(1)%>
                             </a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> <%=block_set.getInt(2)%>°
                             </p>
@@ -294,12 +294,27 @@
                                 }
                                 con.close();
                             } catch (Exception e) {
-                                out.print(e);
+//                                out.print(e);
                             }
                         %>
                     </ul>
                 </div>
             </div>
+            <!--友情链接-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>隔壁邻居</strong></a>
+                </div>
+                <div class="tab-category-item">
+                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://www.baidu.com/"
+                                                             class="btn-link">百度</a></span>
+                    <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://world.taobao.com/"
+                                                                 class="btn-link">淘宝</a></span>
+                    <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://www.imooc.com/"
+                                                                 class="btn-link">慕课网</a></span>
+                </div>
+            </div>
+
         </div>
     </div>
     <form action="save_text.jsp" method="post" id="myform">

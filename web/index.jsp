@@ -133,11 +133,11 @@
                         try {
                             con = DriverManager.getConnection(uri, "demeen", "maoniou");
                             sql = con.createStatement();
-                            String sqlline = "SELECT name,topic_number FROM block ORDER BY topic_number DESC limit 5";
+                            String sqlline = "SELECT name,topic_number,id FROM block ORDER BY topic_number DESC limit 5";
                             ResultSet block_set = sql.executeQuery(sqlline); %>
                     <% while (block_set.next()) {%>
                     <li>
-                        <a href="#"><%=block_set.getString(1)%>
+                        <a href="article_byid.jsp?id=<%=block_set.getString(3)%>"><%=block_set.getString(1)%>
                         </a>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i><%=block_set.getString(2)%>
                         </p>
@@ -170,11 +170,11 @@
                         try {
                             con = DriverManager.getConnection(uri, "demeen", "maoniou");
                             sql = con.createStatement();
-                            String sqlline = "SELECT name,click_number FROM block ORDER BY click_number DESC limit 5";
+                            String sqlline = "SELECT name,click_number,id FROM block ORDER BY click_number DESC limit 5";
                             ResultSet block_set = sql.executeQuery(sqlline); %>
                     <% while (block_set.next()) {%>
                     <li>
-                        <a href="#"><%=block_set.getString(1)%>
+                        <a href="article_byid.jsp?id=<%=block_set.getString(3)%>"><%=block_set.getString(1)%>
                         </a>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> <%=block_set.getInt(2)%>° </p>
                     </li>
@@ -194,11 +194,12 @@
                 <a href=""><strong>隔壁邻居</strong></a>
             </div>
             <div class="tab-category-item">
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">百度</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">淘宝</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">腾讯</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">慕课网</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">h-ui</a></span>
+                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://www.baidu.com/"
+                                                             class="btn-link">百度</a></span>
+                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://world.taobao.com/"
+                                                             class="btn-link">淘宝</a></span>
+                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="https://www.imooc.com/"
+                                                             class="btn-link">慕课网</a></span>
             </div>
         </div>
 
