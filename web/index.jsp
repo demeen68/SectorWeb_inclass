@@ -123,26 +123,32 @@
             </div>
             <div class="tab-category-item">
                 <ul class="index_recd">
+                    <%
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        } catch (Exception e) {
+                            out.print(e);
+                        }
+                        uri = "jdbc:mysql://localhost:3306/sectorweb";
+                        try {
+                            con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                            sql = con.createStatement();
+                            String sqlline = "SELECT name,topic_number FROM block ORDER BY topic_number DESC limit 5";
+                            ResultSet block_set = sql.executeQuery(sqlline); %>
+                    <% while (block_set.next()) {%>
                     <li>
-                        <a href="#">阻止a标签href默认跳转事件</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
+                        <a href="#"><%=block_set.getString(1)%>
+                        </a>
+                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i><%=block_set.getString(2)%>
+                        </p>
                     </li>
-                    <li>
-                        <a href="#">PHP面试题汇总</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                    </li>
-                    <li>
-                        <a href="#">阻止a标签href默认跳转事件</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                    </li>
-                    <li>
-                        <a href="#">阻止a标签href默认跳转事件</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                    </li>
-                    <li>
-                        <a href="#">PHP面试题汇总</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                    </li>
+                    <%
+                            }
+                            con.close();
+                        } catch (Exception e) {
+                            out.print(e);
+                        }
+                    %>
                 </ul>
             </div>
         </div>
@@ -154,34 +160,31 @@
             </div>
             <div class="tab-category-item">
                 <ul class="index_recd clickTop">
+                    <%
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        } catch (Exception e) {
+                            out.print(e);
+                        }
+                        uri = "jdbc:mysql://localhost:3306/sectorweb";
+                        try {
+                            con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                            sql = con.createStatement();
+                            String sqlline = "SELECT name,click_number FROM block ORDER BY click_number DESC limit 5";
+                            ResultSet block_set = sql.executeQuery(sqlline); %>
+                    <% while (block_set.next()) {%>
                     <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
+                        <a href="#"><%=block_set.getString(1)%>
+                        </a>
+                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> <%=block_set.getInt(2)%>° </p>
                     </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
-                    <li>
-                        <a href="#">AJAX的刷新和前进后退问题解决</a>
-                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                    </li>
+                    <%
+                            }
+                            con.close();
+                        } catch (Exception e) {
+                            out.print(e);
+                        }
+                    %>
                 </ul>
             </div>
         </div>

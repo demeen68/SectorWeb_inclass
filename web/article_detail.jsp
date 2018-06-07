@@ -108,6 +108,11 @@
                                     try {
                                         con = DriverManager.getConnection(uri, "demeen", "maoniou");
                                         sql = con.createStatement();
+                                        String click_number = String.format("select id from block where name='%s';", block_name);
+                                        ResultSet clickset = sql.executeQuery(click_number);
+                                        clickset.next();
+                                        click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
+                                        sql.execute(click_number);
                                         String sqlline = String.format("SELECT own_name,create_time,content FROM topic where own_block_name='%s';", block_name);
                                         ResultSet topic_set = sql.executeQuery(sqlline); %>
                                 <% while (topic_set.next()) {%>
@@ -160,24 +165,10 @@
                 </div>
                 <div class="tab-category-item">
                     <ul class="index_recd">
+
+
                         <li>
                             <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">PHP面试题汇总</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">PHP面试题汇总</a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
                         </li>
                     </ul>
