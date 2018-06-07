@@ -111,7 +111,11 @@
                 </p>
                 <p>等级 Level：<%=setcount%>
                 </p>
-
+                <p>
+                <form action="logout.jsp">
+                    <input type="submit" value="logout">
+                </form>
+                </p>
             </ul>
         </div>
     </div>

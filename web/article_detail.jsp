@@ -104,7 +104,9 @@
                                     } catch (Exception e) {
                                         out.print(e);
                                     }
-                                    String uri = "jdbc:mysql://localhost:3306/sectorweb";
+                                    String uri = "jdbc:mysql://localhost:3306/sectorweb";%>
+                                <%--Top is 1--%>
+                                <%
                                     try {
                                         con = DriverManager.getConnection(uri, "demeen", "maoniou");
                                         sql = con.createStatement();
@@ -113,8 +115,62 @@
                                         clickset.next();
                                         click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
                                         sql.execute(click_number);
-                                        String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s';", block_name);
-                                        ResultSet topic_set = sql.executeQuery(sqlline); %>
+                                        String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s' and top=1;", block_name);
+                                        ResultSet topic_set = sql.executeQuery(sqlline);
+                                %>
+                                <% while (topic_set.next()) {%>
+                                <li class="item cl">
+                                    <a href="#"><i class="avatar size-L radius">
+                                        <img alt=""
+                                             src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
+                                    <div class="comment-main">
+                                        <header class="comment-header" style="background: #3d3f74c9">
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#"><%=topic_set.getString(1)%>
+                                                </a>
+                                                <time class="f-r"><%=topic_set.getString(2)%>
+                                                </time>
+                                            </div>
+
+                                        </header>
+                                        <div class="comment-body">
+                                            <p><%=topic_set.getString(3)%>
+                                            </p>
+                                        </div>
+                                        <%if (session.getAttribute("username") != null && !session.getAttribute("username").toString().equals("")) {%>
+                                        <% if (request.getParameter("own_name").equals(session.getAttribute("username").toString())) {
+                                            //is banzhu%>
+                                        <form style="padding: 20px;" action="make_not_top.jsp" method="post">
+                                            <input type="hidden" value="<%=topic_set.getString(4)%>" name="topic_id">
+                                            <input type="submit" value="Canel Top"
+                                                   style="width: 106px; height: 21px;background-color:#a3ecff ">
+                                        </form>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </div>
+                                </li>
+                                <%
+                                        }
+                                        con.close();
+                                    } catch (Exception e) {
+                                        out.print(e);
+                                    }
+                                %>
+                                <%--Top is 0--%>
+                                <%
+                                    try {
+                                        con = DriverManager.getConnection(uri, "demeen", "maoniou");
+                                        sql = con.createStatement();
+                                        String click_number = String.format("select id from block where name='%s';", block_name);
+                                        ResultSet clickset = sql.executeQuery(click_number);
+                                        clickset.next();
+                                        click_number = String.format("update block set click_number = (click_number+1) where id =%d;", clickset.getInt(1));
+                                        sql.execute(click_number);
+                                        String sqlline = String.format("SELECT own_name,create_time,content,id FROM topic where own_block_name='%s' and top=0;", block_name);
+                                        ResultSet topic_set = sql.executeQuery(sqlline);
+                                %>
                                 <% while (topic_set.next()) {%>
                                 <li class="item cl">
                                     <a href="#"><i class="avatar size-L radius">
@@ -134,7 +190,7 @@
                                             <p><%=topic_set.getString(3)%>
                                             </p>
                                         </div>
-                                        <%if (session.getAttribute("username").toString() != null) {%>
+                                        <%if (session.getAttribute("username") != null && !session.getAttribute("username").toString().equals("")) {%>
                                         <% if (request.getParameter("own_name").equals(session.getAttribute("username").toString())) {
                                             //is banzhu%>
                                         <form style="padding: 20px;" action="makeTop.jsp" method="post">
